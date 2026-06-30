@@ -38,48 +38,63 @@
     
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
-    const inventorsFrom1500s = inventors.filter(inventor => inventor.year >= 1500 && inventor.year < 1600);
+    const inventors1500s = inventors.filter(inventor => inventor.year >= 1500 && inventor.year < 1600);
+    console.log("Inventors who were born in the 1500's: ");
+    console.table(inventors1500s);
 
     // Array.prototype.map()
     // 2. Give us an array of the inventors first and last names
-    const inventorsFullName = inventors.map(inventor => inventor.first + ' ' + inventor.last);
+    const inventorsFullName = inventors.map(inventor =>{
+      const fullName = inventor.first + ' ' + inventor.last;
+      return fullName;
+    });
+    console.log('\nInventors full name: ');
+    console.table(inventorsFullName);
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
-    inventors.sort((a, b) => a.year - b.year);
+    const birthDateInventors = inventors.sort((a, b) => a.year - b.year);
+    console.log('\nOrder [inventors] by birthdate (oldest to youngest):');
+    console.table(birthDateInventors);
 
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live all together?
-    const acumulatedYearsLived = inventors.reduce((sum, inventor) => {return sum + (inventor.passed - inventor.year)}, 0);
-
+    const yearsLived  = inventors.reduce((total, actual)  => total + (actual.passed - actual.year), 0);
+    console.log(`Years lived: ${yearsLived}`);
+  
     // 5. Sort the inventors by years lived
-    inventors.sort((a, b) => {return (a.passed - a.year) - (b.passed - b.year)});
+    const yearsLivedInventors = inventors.sort((a, b) => (a.passed - a.year) - (b.passed - b.year));
+    console.log('\nOrder [inventors] by Years Lived:');
+    console.table(yearsLivedInventors);
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
-    const deBoulevards = [
-      "Boulevard de I'Amiral-Bruix",
-      'Boulevard des Capucines',
-      'Boulevard de la Chapelle',
-      'Boulevard de Clichy',
-      "Boulevard de I'Hôpital",
-      'Boulevard des Italiens',
-      'Boulevard de la Madelaine',
-      'Boulevard de Magenta',
-      'Boulevard Marguerite-de-Rochechouart',
-      'Boulevard de Sébastopol'
-    ];
+    /*
+    const category = document.querySelector('.mw-category');
+    const links = Array.from(category.querySelectorAll('a'));
+    const de = links.map(link => link.textContent).filter(streetName => streetName.includes('de'));
+    console.table(de);
+    */
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    const alphabeticallyInventors = people.sort((a, b) => {
+      const aLastName = a.slice(0, a.indexOf(', '));
+      const bLastName = b.slice(0, b.indexOf(', '));
+      return aLastName.localeCompare(bLastName);
+    });
+    console.log("\nOrder [people] alphabetically by last name:");
+    console.table(alphabeticallyInventors);
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
-    const transportsInstances = {};
-    transportsInstances.name = data.filter(vehicle => transportsInstances.keys != vehicle);
-
-
+    const transportsInstances = data.reduce((sum, current) => {
+      current in sum ? sum[current] += 1 : sum[current] = 1;
+      return sum;
+    }, {});
+    console.log('\nTransportations and their instances of [data]:');
+    console.table(transportsInstances);
   </script>
 </body>
 </html>
